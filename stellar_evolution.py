@@ -122,7 +122,7 @@ ax1.set_ylim(0, 1)
 
 ax1.legend(loc=(0.28,0.63), fontsize=24)
 
-fig1.savefig(os.path.join(plots_dir, "Apartado_1"), format="pdf", bbox_inches='tight')
+fig1.savefig(os.path.join(plots_dir, "Apartado_1.pdf"), format="pdf", bbox_inches='tight')
 
 
 # 2 #######################################################################################
@@ -157,7 +157,7 @@ for i, star in enumerate(data):
              marker="<", color="black", markersize=10, linewidth=0, label="TAMS" if i==0 else None )
 ax2.legend(loc="lower left", fontsize=24)
 
-fig2.savefig(os.path.join(plots_dir, "Apartado_2_ab"), format="pdf", bbox_inches='tight')
+fig2.savefig(os.path.join(plots_dir, "Apartado_2_ab.pdf"), format="pdf", bbox_inches='tight')
 
 ### c) What is the age of the stars when they reach the ZAMS? 
 ### d) What is the age of the stars as they leave the main sequence?
@@ -203,7 +203,7 @@ ax3.text(log_mass_ZAMS[10], log_L_ZAMS[10]+1.5, rf"$s_1={pol_2[0]:.2f}$", fontsi
 ax3.set_xlabel(r"$\log_{10}(M/\mathrm{M}_{\odot})$", fontsize=30)
 ax3.set_ylabel(r"$\log_{10}(L/\mathrm{L}_{\odot})$", fontsize=30)
 ax3.tick_params(axis='both', which='major', labelsize=24)
-fig3.savefig(os.path.join(plots_dir, "Apartado_2_e"), format="pdf", bbox_inches='tight')
+fig3.savefig(os.path.join(plots_dir, "Apartado_2_e.pdf"), format="pdf", bbox_inches='tight')
 
 ### f)  Plot the ρc − M relation for ZAMS stars. Compare the slopes to those
 ### expected from the homology relations.
@@ -236,7 +236,7 @@ ax4.text(log_mass_ZAMS[9]+0.15, log_rhoc[9]+0.03, rf"$s_1={pol_3[0]:.2f}$", font
 ax4.set_xlabel(r"$\log_{10}(M/M_{\odot})$", fontsize=30)
 ax4.set_ylabel(r"$\log_{10}(\rho_{{\mathrm{c}}} \, [\unit{\gram\per\centi\meter\cubed}])$", fontsize=30)
 ax4.tick_params(axis='both', which='major', labelsize=24)
-fig4.savefig(os.path.join(plots_dir, "Apartado_2_f"), format="pdf", bbox_inches='tight')
+fig4.savefig(os.path.join(plots_dir, "Apartado_2_f.pdf"), format="pdf", bbox_inches='tight')
 
 ### g)  Plot the ρc − M relation for ZAMS stars. Compare the slopes to those
 ### expected from the homology relations.
@@ -262,7 +262,7 @@ ax5.text(log_mass_ZAMS[10]-0.2, log_Tc[10]+0.08, rf"$p={pol_2[0]:.2f}$", fontsiz
 ax5.set_xlabel(r"$\log_{10}(M/M_{\odot})$", fontsize=30)
 ax5.set_ylabel(r"$\log_{10}(T_{{\mathrm{c}}} \, [\unit{\kelvin}])$", fontsize=30)
 ax5.tick_params(axis='both', which='major', labelsize=24)
-fig5.savefig(os.path.join(plots_dir, "Apartado_2_g"), format="pdf", bbox_inches='tight')
+fig5.savefig(os.path.join(plots_dir, "Apartado_2_g.pdf"), format="pdf", bbox_inches='tight')
 
 # Hay que ajustar 3 pendientes distintas: para la opacidad de Kramers hay que considerar 2 valores de n: para pp y para CNO
 # 3 #######################################################################################
@@ -355,7 +355,7 @@ ax6.text(6.7,3.6,r"$P_{\mathrm{class}} = P_{e,\mathrm{deg}}$",fontsize=20, color
          ,rotation=np.degrees(np.arctan(3/2)),rotation_mode='anchor', transform_rotates_text=True)
 
 
-fig6.savefig(os.path.join(plots_dir, "Apartado_3_abcd"), format="pdf", bbox_inches='tight')
+fig6.savefig(os.path.join(plots_dir, "Apartado_3_abcd.pdf"), format="pdf", bbox_inches='tight')
 
 # 4 #######################################################################################
 """
@@ -448,7 +448,7 @@ ax7_1.set_ylabel(r"Central mass fraction", fontsize=30)
 ax7_2.tick_params(axis='both', which='major', labelsize=24)
 ax7_1.tick_params(axis='both', which='major', labelsize=24)
 
-fig7.savefig(os.path.join(plots_dir, "Apartado_4_ad"), format="pdf", bbox_inches='tight')
+fig7.savefig(os.path.join(plots_dir, "Apartado_4_ad.pdf"), format="pdf", bbox_inches='tight')
 
 # Main Sequence acaba cuando se acaba H y He llega al maximo (ZAMS). 
 # H. Gap y RGB cuando el radio aumenta y el He sigue cte.
