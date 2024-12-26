@@ -89,6 +89,25 @@ def compute_TAMS(table, umbral):
 
     return line-1
 
+def compute_BL(table, radii):
+    """
+    Calcula la línea en que la estrella llega al Blue Loop encontrando el instante en
+    que el radio es máximo
+    """
+    condition = (radii == np.max(radii))
+    line = table["line"][condition][0]
+
+    return line-1
+
+def compute_AGB(table, umbral):
+    """
+    Calcula la línea en que la estrella llega a la fase AGB
+    """
+    condition = table["4He_cen"] < umbral
+    line = table["line"][condition][0]
+
+    return line-1
+
 
 
 # 1 #######################################################################################
@@ -379,15 +398,15 @@ radius = np.sqrt(10**data["M004Z14V0"]["lg(L)"]) / (10**data["M004Z14V0"]["lg(Te
 
 fig7, (ax7_1, ax7_2) = plt.subplots(2, 1, figsize=(20, 14), sharex=True)
 
-ax7_1.plot(data["M004Z14V0"]["time"]/1e6, data["M004Z14V0"]["1H_cen"], color="red")
-ax7_1.plot(data["M004Z14V0"]["time"]/1e6, data["M004Z14V0"]["4He_cen"], color="orange")
-ax7_1.plot(data["M004Z14V0"]["time"]/1e6, data["M004Z14V0"]["12C_cen"]+data["M004Z14V0"]["13C_cen"], color="blue")
-ax7_1.plot(data["M004Z14V0"]["time"]/1e6, data["M004Z14V0"]["16O_cen"]+data["M004Z14V0"]["17O_cen"]+data["M004Z14V0"]["18O_cen"], color="green")
+ax7_1.plot(data["M004Z14V0"]["time"]/1e6, data["M004Z14V0"]["1H_cen"], color="red", label="H")
+ax7_1.plot(data["M004Z14V0"]["time"]/1e6, data["M004Z14V0"]["4He_cen"], color="orange", label="He")
+ax7_1.plot(data["M004Z14V0"]["time"]/1e6, data["M004Z14V0"]["12C_cen"]+data["M004Z14V0"]["13C_cen"], color="blue", label="C")
+ax7_1.plot(data["M004Z14V0"]["time"]/1e6, data["M004Z14V0"]["16O_cen"]+data["M004Z14V0"]["17O_cen"]+data["M004Z14V0"]["18O_cen"], color="green", label="O")
 
-ax7_2.plot(data["M004Z14V0"]["time"]/1e6, radius)
+ax7_2.plot(data["M004Z14V0"]["time"]/1e6, radius, color="black")
 
 # Escala para ver con detalle las fases rápidas:
-splits = [155, 160, 193]
+splits = [155, 160, 195]
 factors = [1/10, 1/2, 1/10, 1]
 
 inverse_splits = []
@@ -438,7 +457,7 @@ ax7_2.set_xscale('function', functions=(forward, backward))
 ax7_2.grid(True)
 ax7_1.grid(True)
 ax7_1.set_xlim(133, np.max(data["M004Z14V0"]["time"]/1e6))
-ax7_1.set_ylim(0, 1.1)
+ax7_1.set_ylim(0, 1.2)
 ax7_2.set_xticks(np.arange(130, 200, 5))
 
 ax7_2.set_xlabel(r"$t$ $[\unit{\mega\year}]$", fontsize=30)
@@ -447,6 +466,68 @@ ax7_1.set_ylabel(r"Central mass fraction", fontsize=30)
 
 ax7_2.tick_params(axis='both', which='major', labelsize=24)
 ax7_1.tick_params(axis='both', which='major', labelsize=24)
+
+ax7_1.legend(loc="best", fontsize=24)
+
+# Calculamos las separaciones entre las etapas MS, HG+RGB, BL y AGB:
+# TAMS:
+TAMS_index = compute_TAMS(data["M009Z14V0"], 1e-4)
+ax7_1.axvline(data["M004Z14V0"]["time"][TAMS_index]/1e6, color="black",linestyle="dashdot", linewidth=2,
+              zorder=0.1, alpha=0.9)
+ax7_2.axvline(data["M004Z14V0"]["time"][TAMS_index]/1e6, color="black",linestyle="dashdot", linewidth=2,
+              zorder=0.1, alpha=0.9)
+ax7_1.annotate(
+        '', 
+        xy=(data["M004Z14V0"]["time"][TAMS_index]/1e6, 1.05), 
+        xytext=(130, 1.05), 
+        arrowprops=dict(arrowstyle='->', color='black', lw=4)
+)
+ax7_1.text((130 + data["M004Z14V0"]["time"][TAMS_index]/1e6) / 2, 1.1, r'MS', 
+             horizontalalignment='center', color='black', fontsize=24)
+
+# BL:
+BL_start = compute_BL(data["M009Z14V0"],radius)
+ax7_1.axvline(data["M004Z14V0"]["time"][BL_start]/1e6, color="black",linestyle="dashdot", linewidth=2,
+              zorder=0.1, alpha=0.9)
+ax7_2.axvline(data["M004Z14V0"]["time"][BL_start]/1e6, color="black",linestyle="dashdot", linewidth=2,
+              zorder=0.1, alpha=0.9)
+
+ax7_1.axvline(data["M004Z14V0"]["time"][compute_AGB(data["M004Z14V0"], 1e-4)]/1e6, color="black",linestyle="dashdot", linewidth=2,
+              zorder=0.1, alpha=0.9)
+ax7_1.annotate(
+        '', 
+        xy=(data["M004Z14V0"]["time"][BL_start]/1e6, 1.05), 
+        xytext=(data["M004Z14V0"]["time"][TAMS_index]/1e6, 1.05), 
+        arrowprops=dict(arrowstyle='<->', color='black', lw=4)
+)
+ax7_1.text(155.8, 1.1, r'HG + RGB', 
+             horizontalalignment='center', color='black', fontsize=24)
+
+
+# AGB:
+AGB_start = compute_AGB(data["M004Z14V0"], 1e-4)
+ax7_1.axvline(data["M004Z14V0"]["time"][AGB_start]/1e6, color="black",linestyle="dashdot", linewidth=2,
+              zorder=0.1, alpha=0.9)
+ax7_2.axvline(data["M004Z14V0"]["time"][AGB_start]/1e6, color="black",linestyle="dashdot", linewidth=2,
+              zorder=0.1, alpha=0.9)
+
+ax7_1.annotate(
+        '', 
+        xy=(data["M004Z14V0"]["time"][AGB_start]/1e6, 1.05), 
+        xytext=(data["M004Z14V0"]["time"][BL_start]/1e6, 1.05), 
+        arrowprops=dict(arrowstyle='<->', color='black', lw=4)
+)
+ax7_1.text(166.3, 1.1, r'BL', 
+             horizontalalignment='center', color='black', fontsize=24)
+
+ax7_1.annotate(
+        '', 
+        xy=(data["M004Z14V0"]["time"][-1]/1e6, 1.05), 
+        xytext=(data["M004Z14V0"]["time"][AGB_start]/1e6, 1.05), 
+        arrowprops=dict(arrowstyle='<->', color='black', lw=4)
+)
+ax7_1.text(195.07, 1.1, r'AGB', 
+             horizontalalignment='left', color='black', fontsize=24)
 
 fig7.savefig(os.path.join(plots_dir, "Apartado_4_ad.pdf"), format="pdf", bbox_inches='tight')
 
@@ -459,3 +540,6 @@ fig7.savefig(os.path.join(plots_dir, "Apartado_4_ad.pdf"), format="pdf", bbox_in
 # ciclo CNO (n=16) y cadena pp (n=4). Para las más calientes (CNO), considerar sólo opacidad de electron scattering, porque la
 # opacidad de Kramers no domina a altas temperaturas. Para las pp, considerar electron scattering (masa intermedia) y Kramers para
 # las más frías.
+
+
+
