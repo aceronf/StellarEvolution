@@ -156,13 +156,13 @@ cmap = colormaps.get_cmap("jet")
 colors = cmap(np.linspace(0, 1, len(data)))
 for i, star in enumerate(data):
     ax2.plot(data[star]["lg(Teff)"], data[star]["lg(L)"], color=colors[i])
-    ax2.text(data[star]["lg(Teff)"][0]+0.22, data[star]["lg(L)"][0], rf"${star_params["Mass"][i].value}$ $M_{{\odot}}$", color=colors[i], fontsize=24)
+    ax2.text(data[star]["lg(Teff)"][0]+0.22, data[star]["lg(L)"][0], rf"${star_params["Mass"][i].value}$ $\mathrm{{M}}_{{\odot}}$", color=colors[i], fontsize=24)
 
 # Ajustes del plot:
 ax2.set_xlim(None, 4.9)
 ax2.invert_xaxis()
 ax2.set_xlabel(r"$\log_{10}(T_{\mathrm{eff}} [\unit{\kelvin}])$", fontsize=30)
-ax2.set_ylabel(r"$\log_{10}(L/L_{\odot})$", fontsize=30)
+ax2.set_ylabel(r"$\log_{10}(L/\mathrm{L}_{\odot})$", fontsize=30)
 ax2.tick_params(axis='both', which='major', labelsize=24)
 
 ### b) Plot the ZAMS and the TAMS. What is the cause of the different main
@@ -243,16 +243,16 @@ pol_2 = np.polyfit(log_mass_ZAMS[3:9], log_rhoc[3:9], 1)
 mm_2 = np.linspace(log_mass_ZAMS[3], log_mass_ZAMS[8], 200)
 pp_2 = np.polyval(pol_2, mm_2)
 ax4.plot(mm_2,pp_2, linewidth=2, color="green")
-ax4.text(log_mass_ZAMS[4]+0.15, log_rhoc[4]+0.03, rf"$s_2={pol_2[0]:.2f}$", fontsize=24, color="green")
+ax4.text(log_mass_ZAMS[5]+0.15, log_rhoc[5]+0.03, rf"$s_2={pol_2[0]:.2f}$", fontsize=24, color="green")
 
 # Fit a los 4 últimos puntos:
 pol_3 = np.polyfit(log_mass_ZAMS[9:], log_rhoc[9:], 1)
 mm_3 = np.linspace(log_mass_ZAMS[9], log_mass_ZAMS[-1], 200)
 pp_3 = np.polyval(pol_3, mm_3)
 ax4.plot(mm_3,pp_3, linewidth=2, color="red")
-ax4.text(log_mass_ZAMS[9]+0.15, log_rhoc[9]+0.03, rf"$s_1={pol_3[0]:.2f}$", fontsize=24, color="red")
+ax4.text(log_mass_ZAMS[10]-0.16, log_rhoc[10]-0.16, rf"$s_1={pol_3[0]:.2f}$", fontsize=24, color="red")
 
-ax4.set_xlabel(r"$\log_{10}(M/M_{\odot})$", fontsize=30)
+ax4.set_xlabel(r"$\log_{10}(M/\mathrm{M}_{\odot})$", fontsize=30)
 ax4.set_ylabel(r"$\log_{10}(\rho_{{\mathrm{c}}} \, [\unit{\gram\per\centi\meter\cubed}])$", fontsize=30)
 ax4.tick_params(axis='both', which='major', labelsize=24)
 fig4.savefig(os.path.join(plots_dir, "Apartado_2_f.pdf"), format="pdf", bbox_inches='tight')
@@ -264,21 +264,28 @@ fig5, ax5 = plt.subplots(figsize=(11, 11))
 log_Tc = [data[star]["lg(Tc)"][0] for star in data] # K
 ax5.plot(log_mass_ZAMS, log_Tc, linewidth=0, color="black", markersize=15, marker="s")
 
-# Fit a los 8 primeros puntos:
-pol_1 = np.polyfit(log_mass_ZAMS[:8], log_Tc[:8], 1)
-mm_1 = np.linspace(log_mass_ZAMS[0], log_mass_ZAMS[8], 200)
+# Fit a los 3 primeros puntos:
+pol_1 = np.polyfit(log_mass_ZAMS[:3], log_Tc[:3], 1)
+mm_1 = np.linspace(log_mass_ZAMS[0], log_mass_ZAMS[2], 200)
 tt_1 = np.polyval(pol_1, mm_1)
 ax5.plot(mm_1,tt_1, linewidth=2, color="blue")
-ax5.text(log_mass_ZAMS[3]-0.2, log_Tc[3]+0.04, rf"$p={pol_1[0]:.2f}$", fontsize=24, color="blue")
+ax5.text(log_mass_ZAMS[1]-0.2, log_Tc[1]+0.02, rf"$s_3={pol_1[0]:.2f}$", fontsize=24, color="blue")
+
+# Fit a los 5 siguientes puntos:
+pol_2 = np.polyfit(log_mass_ZAMS[3:8], log_Tc[3:8], 1)
+mm_2 = np.linspace(log_mass_ZAMS[3], log_mass_ZAMS[7], 200)
+tt_2 = np.polyval(pol_2, mm_2)
+ax5.plot(mm_2,tt_2, linewidth=2, color="green")
+ax5.text(log_mass_ZAMS[5]-0.2, log_Tc[5]+0.02, rf"$s_2={pol_2[0]:.2f}$", fontsize=24, color="green")
 
 # Fit a los 6 últimos puntos:
-pol_2 = np.polyfit(log_mass_ZAMS[8:], log_Tc[8:], 1)
-mm_2 = np.linspace(log_mass_ZAMS[8], log_mass_ZAMS[-1], 200)
-tt_2 = np.polyval(pol_2, mm_2)
-ax5.plot(mm_2,tt_2, linewidth=2, color="red")
-ax5.text(log_mass_ZAMS[10]-0.2, log_Tc[10]+0.08, rf"$p={pol_2[0]:.2f}$", fontsize=24, color="red")
+pol_3 = np.polyfit(log_mass_ZAMS[8:], log_Tc[8:], 1)
+mm_3 = np.linspace(log_mass_ZAMS[8], log_mass_ZAMS[-1], 200)
+tt_3 = np.polyval(pol_3, mm_3)
+ax5.plot(mm_3,tt_3, linewidth=2, color="red")
+ax5.text(log_mass_ZAMS[10]-0.2, log_Tc[10]+0.08, rf"$s_1={pol_3[0]:.2f}$", fontsize=24, color="red")
 
-ax5.set_xlabel(r"$\log_{10}(M/M_{\odot})$", fontsize=30)
+ax5.set_xlabel(r"$\log_{10}(M/\mathrm{M}_{\odot})$", fontsize=30)
 ax5.set_ylabel(r"$\log_{10}(T_{{\mathrm{c}}} \, [\unit{\kelvin}])$", fontsize=30)
 ax5.tick_params(axis='both', which='major', labelsize=24)
 fig5.savefig(os.path.join(plots_dir, "Apartado_2_g.pdf"), format="pdf", bbox_inches='tight')
@@ -541,5 +548,62 @@ fig7.savefig(os.path.join(plots_dir, "Apartado_4_ad.pdf"), format="pdf", bbox_in
 # opacidad de Kramers no domina a altas temperaturas. Para las pp, considerar electron scattering (masa intermedia) y Kramers para
 # las más frías.
 
+### b) Plot the evolutionary track in the HR diagram. Indicate with differ-
+### ent colours the main sequence (MS), the Hertszprung gap + RGB phase
+### (RGB), the blue loop (BL), and the AGB phase (AGB).
+fig8, ax8 = plt.subplots(figsize=(13, 7))
+
+ax8.plot(data["M004Z14V0"]["lg(Teff)"][:TAMS_index+1], data["M004Z14V0"]["lg(L)"][:TAMS_index+1], color="gold", label=r"MS", linewidth=2)
+ax8.plot(data["M004Z14V0"]["lg(Teff)"][TAMS_index:BL_start+1], data["M004Z14V0"]["lg(L)"][TAMS_index:BL_start+1], color="orangered", label=r"HG + RGB",linewidth=2)
+ax8.plot(data["M004Z14V0"]["lg(Teff)"][BL_start:AGB_start+1], data["M004Z14V0"]["lg(L)"][BL_start:AGB_start+1], color="royalblue", label=r"BL", linewidth=2)
+ax8.plot(data["M004Z14V0"]["lg(Teff)"][AGB_start:-1], data["M004Z14V0"]["lg(L)"][AGB_start:-1], color="lime", label=r"AGB", linewidth=2)
 
 
+# Ajustes del plot:
+ax8.invert_xaxis()
+ax8.set_xlabel(r"$\log_{10}(T_{\mathrm{eff}} [\unit{\kelvin}])$", fontsize=30)
+ax8.set_ylabel(r"$\log_{10}(L/L_{\odot})$", fontsize=30)
+ax8.tick_params(axis='both', which='major', labelsize=24)
+ax8.legend(loc="best", fontsize=24)
+
+fig8.savefig(os.path.join(plots_dir, "Apartado_4_b.pdf"), format="pdf", bbox_inches='tight')
+
+
+### c) Plot the evolution of the centre of the star in the (log T, log ρ) plane. Indi-
+### cate with different colours the main sequence (MS), the Hertszprung gap
+### + RGB phase (RGB), the blue loop (BL), and the AGB phase (AGB).
+fig9, ax9 = plt.subplots(figsize=(13, 7))
+
+ax9.plot(data["M004Z14V0"]["lg(Tc)"][:TAMS_index+1], data["M004Z14V0"]["lg(rhoc)"][:TAMS_index+1], color="gold", label=r"MS", linewidth=2)
+ax9.plot(data["M004Z14V0"]["lg(Tc)"][TAMS_index:BL_start+1], data["M004Z14V0"]["lg(rhoc)"][TAMS_index:BL_start+1], color="orangered", label=r"HG + RGB",linewidth=2)
+ax9.plot(data["M004Z14V0"]["lg(Tc)"][BL_start:AGB_start+1], data["M004Z14V0"]["lg(rhoc)"][BL_start:AGB_start+1], color="royalblue", label=r"BL", linewidth=2)
+ax9.plot(data["M004Z14V0"]["lg(Tc)"][AGB_start:-1], data["M004Z14V0"]["lg(rhoc)"][AGB_start:-1], color="lime", label=r"AGB", linewidth=2)
+
+ax9.set_xlabel(r"$\log_{10}(T_{{\mathrm{c}}} \, [\unit{\kelvin}])$", fontsize=30)
+ax9.set_ylabel(r"$\log_{10}(\rho_{{\mathrm{c}}} \, [\unit{\gram\per\centi\meter\cubed}])$", fontsize=30)
+ax9.tick_params(axis='both', which='major', labelsize=24)
+ax9.legend(loc="lower right", fontsize=24)
+
+TT = np.linspace(ax9.get_xlim()[0], ax9.get_xlim()[1], 2000)
+RR = np.linspace(ax9.get_ylim()[0], ax9.get_ylim()[1], 2000)
+TEMP, RHO = np.meshgrid(TT, RR)
+
+# Frontera entre gas ideal y radiación: 10 * R_g rho T / mu = 0.1/3 a T^4 --> rho = 0.1/3 a/R_g mu T^3 --> log(rho) = log(0.1/3 a/R_g mu) +3log(T)
+F1 = RHO -3*TEMP -np.log10((0.1/3 * a/(R_g) * mu).cgs.value)
+# Frontera entre gas ideal y gas degenerado no relativista (e-): K1 rho^5/3 = R_g rho T /mu_e --> rho^2/3 = R_g/(K1*mu_e) T --> log(rho) = 3/2 log(R_g/(K1*mu_e)) + 3/2 log(T)
+F2 = RHO -3/2*TEMP -3/2*np.log10((R_g/(K1*mu)).cgs.value)
+# Frontera entre gas ideal y gas degenerado relativista (e-): K2 rho^4/3 = R_g rho T /mu_e  --> rho^1/3 = R_g/(K2*mu_e) T --> log(rho) = 3log(R_g/(K2*mu_e)) +3log(T)
+F3 = RHO  -3*TEMP -3*np.log10((R_g/(K2*mu)).cgs.value)
+
+# Frontera entre gas degenerado relativista y no relativista: K1 rho^5/3 = K2 rho^4/3 --> rho^1/3 = K2/K1 --> log(rho) = 3*log(K2/K1)
+F4 = RHO -3*np.log10((K2/K1).cgs.value)
+# Dibujamos las regiones:
+Z = np.zeros_like(RHO)
+Z[(F1 <= 0)] = 1  
+Z[(F1 > 0) & ((F2<0) | (F3<0))] = 2   
+Z[((F2>0) & (F3>0) & (F4<0))] = 3
+Z[((F2>0) & (F3>0) & (F4>0))] = 4
+
+ax9.contourf(TEMP, RHO, Z, levels=[0, 1, 2, 3, 4], colors="black", alpha=[0.1,0.4,0.6, 0.8])
+
+fig9.savefig(os.path.join(plots_dir, "Apartado_4_c.pdf"), format="pdf", bbox_inches='tight')
