@@ -468,7 +468,7 @@ ax7_1.set_ylim(0, 1.2)
 ax7_2.set_xticks(np.arange(130, 200, 5))
 
 ax7_2.set_xlabel(r"$t$ $[\unit{\mega\year}]$", fontsize=30)
-ax7_2.set_ylabel(r"$R/R_{\odot}$", fontsize=30)
+ax7_2.set_ylabel(r"$R/\mathrm{R_{\odot}}$", fontsize=30)
 ax7_1.set_ylabel(r"Central mass fraction", fontsize=30)
 
 ax7_2.tick_params(axis='both', which='major', labelsize=24)
@@ -551,7 +551,7 @@ fig7.savefig(os.path.join(plots_dir, "Apartado_4_ad.pdf"), format="pdf", bbox_in
 ### b) Plot the evolutionary track in the HR diagram. Indicate with differ-
 ### ent colours the main sequence (MS), the Hertszprung gap + RGB phase
 ### (RGB), the blue loop (BL), and the AGB phase (AGB).
-fig8, ax8 = plt.subplots(figsize=(13, 7))
+fig8, ax8 = plt.subplots(figsize=(10, 10))
 
 ax8.plot(data["M004Z14V0"]["lg(Teff)"][:TAMS_index+1], data["M004Z14V0"]["lg(L)"][:TAMS_index+1], color="gold", label=r"MS", linewidth=2)
 ax8.plot(data["M004Z14V0"]["lg(Teff)"][TAMS_index:BL_start+1], data["M004Z14V0"]["lg(L)"][TAMS_index:BL_start+1], color="orangered", label=r"HG + RGB",linewidth=2)
@@ -562,7 +562,7 @@ ax8.plot(data["M004Z14V0"]["lg(Teff)"][AGB_start:-1], data["M004Z14V0"]["lg(L)"]
 # Ajustes del plot:
 ax8.invert_xaxis()
 ax8.set_xlabel(r"$\log_{10}(T_{\mathrm{eff}} [\unit{\kelvin}])$", fontsize=30)
-ax8.set_ylabel(r"$\log_{10}(L/L_{\odot})$", fontsize=30)
+ax8.set_ylabel(r"$\log_{10}(L/\mathrm{L_{\odot}})$", fontsize=30)
 ax8.tick_params(axis='both', which='major', labelsize=24)
 ax8.legend(loc="best", fontsize=24)
 
@@ -572,7 +572,7 @@ fig8.savefig(os.path.join(plots_dir, "Apartado_4_b.pdf"), format="pdf", bbox_inc
 ### c) Plot the evolution of the centre of the star in the (log T, log ρ) plane. Indi-
 ### cate with different colours the main sequence (MS), the Hertszprung gap
 ### + RGB phase (RGB), the blue loop (BL), and the AGB phase (AGB).
-fig9, ax9 = plt.subplots(figsize=(13, 7))
+fig9, ax9 = plt.subplots(figsize=(10, 10))
 
 ax9.plot(data["M004Z14V0"]["lg(Tc)"][:TAMS_index+1], data["M004Z14V0"]["lg(rhoc)"][:TAMS_index+1], color="gold", label=r"MS", linewidth=2)
 ax9.plot(data["M004Z14V0"]["lg(Tc)"][TAMS_index:BL_start+1], data["M004Z14V0"]["lg(rhoc)"][TAMS_index:BL_start+1], color="orangered", label=r"HG + RGB",linewidth=2)
