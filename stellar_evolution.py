@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Estructura y evolución estelar: Ecuación de Lane-Emden y modelos politrópicos
-solares.
+Estructura y evolución estelar: Modelos de evolución estelar
 
 @author: Alejandro Cerón Fernández
 """
