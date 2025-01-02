@@ -302,7 +302,7 @@ for i, star in enumerate(data):
     if i in [0,3,7,11]:
         length = len(data[star])
         ax6.plot(data[star]["lg(Tc)"], data[star]["lg(rhoc)"], color=colors[i])
-        ax6.text(data[star]["lg(Tc)"][0]-0.3, data[star]["lg(rhoc)"][0]-0.22, rf"${star_params["Mass"][i].value}$ $M_{{\odot}}$", color=colors[i], fontsize=24)
+        ax6.text(data[star]["lg(Tc)"][0]-0.3, data[star]["lg(rhoc)"][0]-0.22, rf"${star_params["Mass"][i].value}$" r"$\mathrm{M_\odot}$", color=colors[i], fontsize=24)
 
 # Ajustes del plot:
 ax6.set_xlim(6.5, 10)
@@ -347,9 +347,9 @@ TEMP, RHO = np.meshgrid(TT, RR)
 # Frontera entre gas ideal y radiación: 10 * R_g rho T / mu = 0.1/3 a T^4 --> rho = 0.1/3 a/R_g mu T^3 --> log(rho) = log(0.1/3 a/R_g mu) +3log(T)
 F1 = RHO -3*TEMP -np.log10((0.1/3 * a/(R_g) * mu).cgs.value)
 # Frontera entre gas ideal y gas degenerado no relativista (e-): K1 rho^5/3 = R_g rho T /mu_e --> rho^2/3 = R_g/(K1*mu_e) T --> log(rho) = 3/2 log(R_g/(K1*mu_e)) + 3/2 log(T)
-F2 = RHO -3/2*TEMP -3/2*np.log10((R_g/(K1*mu)).cgs.value)
+F2 = RHO -3/2*TEMP -3/2*np.log10((R_g/(K1*mu_e)).cgs.value)
 # Frontera entre gas ideal y gas degenerado relativista (e-): K2 rho^4/3 = R_g rho T /mu_e  --> rho^1/3 = R_g/(K2*mu_e) T --> log(rho) = 3log(R_g/(K2*mu_e)) +3log(T)
-F3 = RHO  -3*TEMP -3*np.log10((R_g/(K2*mu)).cgs.value)
+F3 = RHO  -3*TEMP -3*np.log10((R_g/(K2*mu_e)).cgs.value)
 
 # Frontera entre gas degenerado relativista y no relativista: K1 rho^5/3 = K2 rho^4/3 --> rho^1/3 = K2/K1 --> log(rho) = 3*log(K2/K1)
 F4 = RHO -3*np.log10((K2/K1).cgs.value)
@@ -364,19 +364,19 @@ ax6.contourf(TEMP, RHO, Z, levels=[0, 1, 2, 3, 4], colors="black", alpha=[0.1,0.
 
 # Info sobre las regiones en el plot:
 ax6.text(9,2,r"\textsc{Radiation Gas}", fontsize=24, color="black")
-ax6.text(8.8,6,r"\textsc{Classical Ideal Gas}", fontsize=24, color="black")
+ax6.text(9.1,6,r"\textsc{Classical\\Ideal Gas}", fontsize=24, color="black")
 ax6.text(7,9,r"\textsc{Degenerate Relativistic Electron Gas}", fontsize=24, color="white")
 ax6.text(6.7,5.8,r"\textsc{Degenerate Electron Gas}", fontsize=24, color="white")
 
 # Info sobre las fronteras:
 ax6.text(8.2,0.96,r"$P_{\mathrm{rad}} = 10 P_{\mathrm{class}}$",fontsize=20
          ,rotation=np.degrees(np.arctan(3)),rotation_mode='anchor', transform_rotates_text=True)
-ax6.text(9,7.45,r"$P_{\mathrm{class}} = P_{e,\mathrm{deg-rel}}$",fontsize=20, color="white"
+ax6.text(9.5,7.45,r"$P_{e,\mathrm{class}} = P_{e,\mathrm{deg-rel}}$",fontsize=20, color="white"
          ,rotation=np.degrees(np.arctan(3)),rotation_mode='anchor', transform_rotates_text=True)
 ax6.text(7,6.7,r"$P_{e,\mathrm{deg}} = P_{e,\mathrm{deg-rel}}$",fontsize=20, color="white"
          ,rotation=0,rotation_mode='anchor', transform_rotates_text=True)
 
-ax6.text(6.7,3.6,r"$P_{\mathrm{class}} = P_{e,\mathrm{deg}}$",fontsize=20, color="white"
+ax6.text(6.7,2.85,r"$P_{e,\mathrm{class}} = P_{e,\mathrm{deg}}$",fontsize=20, color="white"
          ,rotation=np.degrees(np.arctan(3/2)),rotation_mode='anchor', transform_rotates_text=True)
 
 
